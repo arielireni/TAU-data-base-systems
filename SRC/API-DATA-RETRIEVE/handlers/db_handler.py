@@ -1,6 +1,6 @@
 import logging
 
-import mysql
+import mysql.connector
 
 logger = logging.getLogger()
 tables = [
