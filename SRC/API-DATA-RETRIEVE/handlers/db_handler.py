@@ -1,6 +1,7 @@
 import logging
 
 import mysql.connector
+from .api_handler import APIHandler
 
 logger = logging.getLogger()
 tables = [
@@ -69,8 +70,8 @@ class DBHandler(object):
 
     def create_table(self, table_dict):
         logger.info("before query")
-        query = "CREATE TABLE {table_name} ({table_colums})".format(table_name=table_dict['name'],
-                                                                    table_colums={table_dict['columns']})
+        query = "CREATE TABLE IF NOT EXISTS {table_name} ({table_colums})".format(table_name=table_dict['name'],
+                                                                                  table_colums={table_dict['columns']})
         logger.info("after query")
         cursor = self.db_connection.cursor()
         try:
@@ -83,3 +84,16 @@ class DBHandler(object):
     def create_all_tables(self):
         for table_dict in tables:
             self.create_table(table_dict)
+
+    def insert_to_table(self):
+        api_handler = APIHandler()
+        query = "INSERT INTO PlayersTeams (player_id, team_id) VALUES (%d, %d)"
+        values = (1, 2)
+        cursor = self.db_connection.cursor()
+        cursor.execute(query, values)
+        self.db_connection.commit()
+        logger.info(cursor.rowcount, "record inserted")
+        cursor.close()
+
+db_handler = DBHandler()
+db_handler.insert_to_table()
