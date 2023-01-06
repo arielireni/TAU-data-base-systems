@@ -1,7 +1,6 @@
 import logging
 
 import mysql.connector
-from .api_handler import APIHandler
 
 logger = logging.getLogger()
 tables = [
@@ -86,7 +85,6 @@ class DBHandler(object):
             self.create_table(table_dict)
 
     def insert_to_table(self):
-        api_handler = APIHandler()
         query = "INSERT INTO PlayersTeams (player_id, team_id) VALUES (%d, %d)"
         values = (1, 2)
         cursor = self.db_connection.cursor()
