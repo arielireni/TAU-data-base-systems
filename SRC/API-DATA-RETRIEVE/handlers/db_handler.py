@@ -5,12 +5,12 @@ tables = [
         "name": "Game",
         "columns": "id INT PRIMARY KEY,"
                    "date_start DATE,"
-                    "season INT,"
-                    "attendance INT,"
-                    "team_id_1 INT,"
-                    "team_id_2 INT,"
-                    "FOREIGN KEY (team_id_1) REFERENCES Teams (id) ON UPDATE CASCADE ON DELETE CASCADE,"
-                    "FOREIGN KEY (team_id_2) REFERENCES Teams (id) ON UPDATE CASCADE ON DELETE CASCADE,"
+                   "season INT,"
+                   "attendance INT,"
+                   "team_id_1 INT,"
+                   "team_id_2 INT,"
+                   "FOREIGN KEY (team_id_1) REFERENCES Teams (id) ON UPDATE CASCADE ON DELETE CASCADE,"
+                   "FOREIGN KEY (team_id_2) REFERENCES Teams (id) ON UPDATE CASCADE ON DELETE CASCADE,"
     },
     {
         "name": "Players",
@@ -42,6 +42,8 @@ tables = [
     },
 
 ]
+
+
 class DBHandler(object):
     def __init__(self, host="mysqlsrv1.cs.tau.ac.il", user="arielireni", password="ar17063", port=3306):
         self.host = host,
