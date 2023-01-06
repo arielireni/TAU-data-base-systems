@@ -58,11 +58,11 @@ class DBHandler(object):
 
     def connect(self):
         db_connection = mysql.connector.connect(
-            host=self.host,
-            user=self.user,
-            password=self.password,
-            port=self.port,
-            database="arielireni"
+            host="mysqlsrv1.cs.tau.ac.il",
+            user="arielireni",
+            password="ar17063",
+            database="arielireni",
+            port=3306,
         )
 
         return db_connection
