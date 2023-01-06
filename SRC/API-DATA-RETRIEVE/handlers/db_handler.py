@@ -64,7 +64,8 @@ class DBHandler(object):
         return db_connection
 
     def create_table(self, table_dict):
-        query = f"CREATE TABLE IF NOT EXISTS {table_dict['name']} ({table_dict['columns']});"
+        query = "CREATE TABLE IF NOT EXISTS {table_name} ({table_colums})".format(table_name=table_dict['name'],
+                                                                                  table_colums={table_dict['columns']})
         cursor = self.db_connection.cursor()
         try:
             cursor.execute(query)
