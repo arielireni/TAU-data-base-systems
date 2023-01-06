@@ -1,5 +1,8 @@
+import logging
+
 import mysql
 
+logger = logging.getLogger()
 tables = [
     {
         "name": "Game",
@@ -51,6 +54,7 @@ class DBHandler(object):
         self.password = password,
         self.port = port
         self.db_connection = self.connect(database="arielireni")
+        logger.info(f"connection: {self.db_connection}")
 
     def connect(self, database=None):
         db_connection = mysql.connector.connect(
@@ -64,13 +68,15 @@ class DBHandler(object):
         return db_connection
 
     def create_table(self, table_dict):
+        logger.info("before query")
         query = "CREATE TABLE IF NOT EXISTS {table_name} ({table_colums})".format(table_name=table_dict['name'],
                                                                                   table_colums={table_dict['columns']})
+        logger.info("after query")
         cursor = self.db_connection.cursor()
         try:
             cursor.execute(query)
         except Exception as e:
-            print("failed to execute query with error: ", e)
+            logger.info("failed to execute query with error: ", str(e))
         finally:
             cursor.close()
 
