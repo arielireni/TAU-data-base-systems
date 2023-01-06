@@ -92,6 +92,3 @@ class DBHandler(object):
         self.db_connection.commit()
         logger.info(cursor.rowcount, "record inserted")
         cursor.close()
-
-db_handler = DBHandler()
-db_handler.insert_to_table()
