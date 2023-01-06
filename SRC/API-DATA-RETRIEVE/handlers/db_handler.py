@@ -69,7 +69,7 @@ class DBHandler(object):
 
     def create_table(self, table_dict):
         logger.info("before query")
-        query = "CREATE TABLE IF NOT EXISTS {table_name} ({table_colums})".format(table_name=table_dict['name'],
+        query = "CREATE TABLE IF NOT EXISTS arielireni.{table_name} ({table_colums})".format(table_name=table_dict['name'],
                                                                                   table_colums={table_dict['columns']})
         logger.info("after query")
         cursor = self.db_connection.cursor()
