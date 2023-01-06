@@ -85,7 +85,7 @@ class DBHandler(object):
             self.create_table(table_dict)
 
     def insert_to_table(self):
-        query = "INSERT INTO PlayersTeams (player_id, team_id) VALUES (%d, %d)"
+        query = "INSERT INTO PlayersTeams (player_id, team_id) VALUES (%s, %s)"
         values = (1, 2)
         cursor = self.db_connection.cursor()
         cursor.execute(query, values)
