@@ -5,7 +5,14 @@ import mysql.connector
 logger = logging.getLogger()
 tables = [
     {
-        "name": "Game",
+        "name": "Teams",
+        "columns": "id INT PRIMARY KEY,"
+                   "name VARCHAR(255),"
+                   "location VARCHAR(255),"
+                   "division_id INT,"
+    },
+    {
+        "name": "Games",
         "columns": "id INT PRIMARY KEY,"
                    "date_start DATE,"
                    "season INT,"
@@ -16,24 +23,17 @@ tables = [
                    "FOREIGN KEY (team_id_2) REFERENCES Teams (id) ON UPDATE CASCADE ON DELETE CASCADE,"
     },
     {
+        "name": "Positions",
+        "columns": "id INT PRIMARY KEY,"
+                   "description VARCHAR(255),"
+    },
+    {
         "name": "Players",
         "columns": "id INT PRIMARY KEY,"
                    "first_name VARCHAR(255),"
                    "last_name VARCHAR(255),"
                    "position_id INT,"
                    "FOREIGN KEY (position_id) REFERENCES Positions (id) ON UPDATE CASCADE ON DELETE CASCADE,"
-    },
-    {
-        "name": "Positions",
-        "columns": "id INT PRIMARY KEY,"
-                   "description VARCHAR(255),"
-    },
-    {
-        "name": "Teams",
-        "columns": "id INT PRIMARY KEY,"
-                   "name VARCHAR(255),"
-                   "location VARCHAR(255),"
-                   "division_id INT,"
     },
     {
         "name": "PlayersTeams",
@@ -93,5 +93,5 @@ class DBHandler(object):
         logger.info(cursor.rowcount, "record inserted")
         cursor.close()
 
-db_handler = DBHandler()
-db_handler.insert_to_table()
+# db_handler = DBHandler()
+# db_handler.insert_to_table()

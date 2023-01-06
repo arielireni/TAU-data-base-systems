@@ -75,5 +75,5 @@ class APIHandler(object):
             players_teams_data.append(player_team_data)
         return players_teams_data
 
-handler = APIHandler()
-handler.get_games_data()
+# handler = APIHandler()
+# handler.get_games_data()
