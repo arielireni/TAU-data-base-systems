@@ -48,7 +48,7 @@ class DBHandler(object):
         self.user = user,
         self.password = password,
         self.port = port
-        self.db_connection = self.connect()
+        self.db_connection = self.connect(database="arielireni")
 
     def connect(self, database=None):
         db_connection = mysql.connector.connect(
