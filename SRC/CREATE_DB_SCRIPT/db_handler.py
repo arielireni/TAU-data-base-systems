@@ -218,23 +218,3 @@ class DBHandler(object):
         finally:
             cursor.close()
             self.db_connection.close()
-
-    def fix_players_with_age(self):
-        cursor = self.db_connection.cursor()
-        query = "SELECT * FROM Players"
-        cursor.execute(query)
-        players_ids = set()
-        for row in cursor:
-            players_ids.add(row[0])
-        for player_id in players_ids:
-            response = requests.get(f'{api_handler.url_prefix}players/{player_id}?api_token={api_handler.key}')
-            data = json.loads(response.text)['data']
-            birthdate_str = data['birthdate']
-            age = api_handler.get_age_by_birth_date(birthdate_str)
-            if age:
-                query = f"UPDATE Players SET age = {age} WHERE id = {player_id}"
-            else:
-                query = f"UPDATE Players SET age = null WHERE id = {player_id}"
-            cursor.execute(query)
-        self.db_connection.commit()
-        cursor.close()
