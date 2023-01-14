@@ -1,4 +1,6 @@
 from SRC.CREATE_DB_SCRIPT.db_handler import DBHandler
+import pandas as pd
+from tabulate import tabulate
 
 db_handler = DBHandler()
 
@@ -19,9 +21,7 @@ def query_1():
             f"AND p.age < {age_limit}"
     query_output = db_handler.execute_query(query)
     print(f"All the European players under age of {age_limit} are: ")
-    for player in query_output:
-        print(player)
-    return
+    print(tabulate(query_output, headers=['Name', 'Country', 'Age']))
 
 
 def query_2():
@@ -44,7 +44,7 @@ def query_2():
 
     query_output = db_handler.execute_query(query)
     print(f"The venue which team {desired_team} lost the most in, and the number of looses:")
-    print(query_output)
+    print(tabulate(query_output, headers=['Team', 'Name', 'Number of losses']))
     return
 
 
@@ -62,7 +62,7 @@ def query_3():
 
     query_output = db_handler.execute_query(query)
     print(f"the top {desired_limit} teams who have the most players which are top scorers:")
-    print(query_output)
+    print(tabulate(query_output, headers=['Name', 'Number of players']))
 
 
 def query_4():
@@ -80,7 +80,7 @@ def query_4():
 
     query_output = db_handler.execute_query(query)
     print(f"The home winning percentage of team {desired_team_name}:")
-    print(query_output)
+    print(tabulate(query_output, headers=['Name', 'Home win percentage']))
 
 
 def query_5():
@@ -100,7 +100,7 @@ def query_5():
 
     query_output = db_handler.execute_query(query)
     print(f"The players from country {desired_country_name} which are top scorers and under age of {desired_age_limit}:")
-    print(query_output)
+    print(tabulate(query_output, headers=['Name', 'Goals']))
 
 
 def query_6():
@@ -118,7 +118,7 @@ def query_6():
 
     query_output = db_handler.execute_query(query)
     print(f"Here are the players we've found by your keyword:")
-    print(query_output)
+    print(tabulate(query_output, headers=['Player', 'Country', 'Team']))
 
 
 query_6()
