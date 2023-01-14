@@ -121,4 +121,23 @@ def query_6():
     print(tabulate(query_output, headers=['Player', 'Country', 'Team']))
 
 
-query_6()
+def main():
+    if hasattr(__builtins__, 'raw_input'):
+        __builtins__.input = getattr(__builtins__, 'raw_input')
+    queries = [query_1, query_2, query_3, query_4, query_5, query_6]
+    print('Press the query number you would like to execute:')
+    print('1 - all the European players under age of x')
+    print('2 - the venue which team x lost the most in, and the number of looses')
+    print('3 - the top x teams who have the most players which are top scorers')
+    print('4 - the home winning percentage of team x')
+    print('5 - all the players from country x which are top scorers and under age of y')
+    print('6 - the player data by the user keyword')
+    query_num = input()
+    while query_num not in ['1', '2', '3', '4', '5', '6']:
+        print('Invalid query number. Please try again')
+        query_num = input()
+    queries[int(query_num) - 1]()
+
+
+if __name__ == '__main__':
+    main()
