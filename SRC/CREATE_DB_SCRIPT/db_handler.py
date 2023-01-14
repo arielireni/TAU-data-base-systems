@@ -202,7 +202,12 @@ class DBHandler(object):
         cursor.close()
 
     def insert_to_all_tables(self):
-        # TODO
+        self.insert_to_teams_table()
+        self.insert_to_venues_games_table()
+        self.insert_extra_venues_to_venues_table()
+        self.insert_to_countries_table()
+        self.insert_to_players_table()
+        self.insert_top_players_to_players_table()
         return
 
     def execute_query(self, query):
