@@ -1,9 +1,5 @@
-import json
 import logging
-
 import mysql.connector
-import requests
-
 from SRC.API_DATA_RETRIEVE.api_handler import APIHandler
 
 logger = logging.getLogger()

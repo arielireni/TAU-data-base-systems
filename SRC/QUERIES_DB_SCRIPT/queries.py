@@ -1,5 +1,4 @@
 from SRC.CREATE_DB_SCRIPT.db_handler import DBHandler
-import pandas as pd
 from tabulate import tabulate
 
 db_handler = DBHandler()
