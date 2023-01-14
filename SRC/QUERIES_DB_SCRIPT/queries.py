@@ -1,6 +1,4 @@
-import mysql.connector
-from mysql.connector import InterfaceError
-from handlers.db_handler import DBHandler
+from SRC.CREATE_DB_SCRIPT.db_handler import DBHandler
 
 db_handler = DBHandler()
 

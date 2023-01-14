@@ -4,7 +4,7 @@ import logging
 import mysql.connector
 import requests
 
-from api_handler import APIHandler
+from SRC.API_DATA_RETRIEVE.api_handler import APIHandler
 
 logger = logging.getLogger()
 api_handler = APIHandler()
@@ -71,7 +71,7 @@ class DBHandler(object):
         logger.info(f"connection: {self.db_connection}")
 
     def connect(self):
-        db_connection = mysql.connector.connect(
+        self.db_connection = mysql.connector.connect(
             host="localhost",
             user="arielireni",
             password="ar17063",
@@ -79,20 +79,17 @@ class DBHandler(object):
             port=3305,
         )
 
-        return db_connection
+        return self.db_connection
 
     def create_table(self, table_dict):
-        logger.info("before query")
-        query = "CREATE TABLE IF NOT EXISTS arielireni.{table_name} ({table_colums})".format(
+        query = "CREATE TABLE IF NOT EXISTS {table_name} ({table_colums})".format(
             table_name=table_dict['name'],
             table_colums=table_dict['columns'])
-        logger.info("after query")
-        print(self.db_connection.server_port)
         cursor = self.db_connection.cursor()
         try:
             cursor.execute(query)
         except Exception as e:
-            logger.info("failed to execute query with error: ", str(e))
+            logger.info("failed to execute create table query with error: ", str(e))
         finally:
             cursor.close()
 
@@ -121,8 +118,6 @@ class DBHandler(object):
         cursor.close()
 
     def insert_to_venues_games_table(self):
-        count_unmatched = 0
-        unmatched_venues = set()
         games_data = api_handler.get_games_data()
         all_venues = set()
         for game in games_data:
@@ -135,28 +130,22 @@ class DBHandler(object):
         query = "INSERT INTO Games (id, winner_id, team_id_1, team_id_2, venue_id) VALUES (%s, %s, %s, %s, %s)"
         for game in games_data:
             values = (game["id"], game["winner_id"], game["team_id_1"], game["team_id_2"], game["venue_id"])
-            print(values)
             try:
                 cursor.execute(query, values)
             except:
-                count_unmatched += 1
-                unmatched_venues.add(game["venue_id"])
                 continue
         self.db_connection.commit()
         cursor.close()
 
-    def insert_more_venues_to_venues_table(self):
+    def insert_extra_venues_to_venues_table(self):
         venues_data = api_handler.get_extra_venues_data()
         cursor = self.db_connection.cursor()
         query = "INSERT INTO Venues (id, name) VALUES (%s, %s)"
         for venue in venues_data:
             values = (venue["id"], venue["name"])
-            print(values)
             try:
                 cursor.execute(query, values)
-                print("succeeded")
             except:
-                print("failed")
                 continue
         self.db_connection.commit()
         cursor.close()
@@ -204,12 +193,10 @@ class DBHandler(object):
 
     def insert_to_top_players_table(self):
         top_players_data = api_handler.get_top_players_data()
-        print("final top players data: ", top_players_data)
         cursor = self.db_connection.cursor()
         query = "INSERT INTO TopPlayers (position, season_id, player_id, goals) VALUES (%s, %s, %s, %s)"
         for top_player in top_players_data:
             values = (top_player["position"], top_player["season_id"], top_player["player_id"], top_player["goals"])
-            print(values)
             cursor.execute(query, values)
         self.db_connection.commit()
         cursor.close()
@@ -243,26 +230,6 @@ class DBHandler(object):
                 query = f"UPDATE Players SET age = {age} WHERE id = {player_id}"
             else:
                 query = f"UPDATE Players SET age = null WHERE id = {player_id}"
-            print(query)
-            print("updated player: ", player_id)
             cursor.execute(query)
         self.db_connection.commit()
         cursor.close()
-
-
-db_handler = DBHandler(host="localhost", port=3305)
-# db_handler.insert_to_table()
-# cursor = db_handler.db_connection.cursor()
-# query = "INSERT INTO Teams (id, name) VALUES (%s, %s)"
-# cursor.execute(query, (1, "test"))
-# db_handler.db_connection.commit()
-# cursor.close()
-
-# query = "CREATE TABLE IF NOT EXISTS arielireni.{table_name} ({table_colums})".format(
-#     table_name="test",
-#     table_colums="position INT")
-# cursor = db_handler.db_connection.cursor()
-# cursor.execute(query)
-# cursor.close()
-
-db_handler.insert_more_venues_to_venues_table()
